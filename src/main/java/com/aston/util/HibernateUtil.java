@@ -21,11 +21,6 @@ public class HibernateUtil {
     @Value("${db.url}")
     private String dbUrl;
 
-    @Value("${db.user}")
-    private String user;
-
-    @Value("${db.password}")
-    private String password;
     @Value("${db.show_sql}")
     private String showSQL;
 
@@ -40,9 +35,7 @@ public class HibernateUtil {
             Properties settings = new Properties();
             settings.put(DRIVER, driver);
             settings.put(URL, dbUrl);
-//            Uncomment lines below if use password for db
-//            settings.put(USER, user);
-//            settings.put(PASS, password);
+            settings.put(DIALECT, "org.hibernate.dialect.PostgreSQL94Dialect");
             settings.put(SHOW_SQL, showSQL);
             settings.put(CURRENT_SESSION_CONTEXT_CLASS, "thread");
             settings.put(HBM2DDL_AUTO, schema);
