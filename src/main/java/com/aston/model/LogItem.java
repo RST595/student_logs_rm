@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Entity
 @Data
 @Table(name = "logitem")
-public class LogItem {
+public class LogItem implements BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,4 +22,9 @@ public class LogItem {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     private Student student;
+
+    @Override
+    public int getId(){
+        return id;
+    }
 }

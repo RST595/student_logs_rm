@@ -3,8 +3,8 @@ package com.aston.controller;
 import com.aston.dto.request.StudentRequestDTO;
 import com.aston.dto.response.StudentResponseDTO;
 import com.aston.service.StudentService;
-import com.aston.dto.response.ResponseMessageDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,12 +26,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseMessageDTO addNewStudent(@RequestBody StudentRequestDTO student){
+    public ResponseEntity<String> addNewStudent(@RequestBody StudentRequestDTO student){
         return studentService.addNewStudent(student);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseMessageDTO deleteStudentById(@PathVariable int id){
+    public ResponseEntity<String> deleteStudentById(@PathVariable int id){
         return studentService.deleteStudentById(id);
     }
 }

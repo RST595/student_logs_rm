@@ -1,13 +1,13 @@
 package com.aston.repo;
 
-import com.aston.exception.SQLTransactionException;
-import com.aston.model.LogItem;
+import com.aston.exception.ServiceError;
+import com.aston.model.BaseModel;
 import com.aston.model.Student;
 import com.aston.util.HibernateUtil;
-import com.aston.dto.response.ResponseMessageDTO;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
@@ -16,12 +16,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+import static com.aston.exception_handler.ErrorMessage.SERVER_ERROR;
+import static com.aston.exception_handler.ErrorMessage.STUDENT_NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
+
 @Repository
 @RequiredArgsConstructor
 public class StudentRepo {
-
-    private static final String EXCEPTION_MESSAGE = "Student didnt founded";
-
 
     public Student getStudentById(int id){
         Transaction transaction = null;
@@ -34,9 +35,9 @@ public class StudentRepo {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new SQLTransactionException(EXCEPTION_MESSAGE);
+            throw new ServiceError(INTERNAL_SERVER_ERROR, SERVER_ERROR);
         }
-        if(student == null)throw new SQLTransactionException(EXCEPTION_MESSAGE);
+        if(student == null) { throw new ServiceError(NOT_FOUND, STUDENT_NOT_FOUND); }
         return student;
     }
 
@@ -56,12 +57,12 @@ public class StudentRepo {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new SQLTransactionException(EXCEPTION_MESSAGE);
+            throw new ServiceError(INTERNAL_SERVER_ERROR, SERVER_ERROR);
         }
-        if(students == null)throw new SQLTransactionException(EXCEPTION_MESSAGE);
+        if(students == null) { throw new ServiceError(NOT_FOUND, STUDENT_NOT_FOUND); }
         return students;
     }
-    public ResponseMessageDTO addNewStudent(Student student) {
+    public ResponseEntity<String> addNewStudent(Student student) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -71,12 +72,12 @@ public class StudentRepo {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new SQLTransactionException("Student didnt added");
+            throw new ServiceError(INTERNAL_SERVER_ERROR, SERVER_ERROR);
         }
-        return new ResponseMessageDTO(true, "Student added");
+        return new ResponseEntity<>( "Student added", OK);
     }
 
-    public ResponseMessageDTO deleteStudentById(int id) {
+    public ResponseEntity<String> deleteStudentById(int id) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -89,23 +90,23 @@ public class StudentRepo {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new SQLTransactionException("Student didnt deleted");
+            throw new ServiceError(INTERNAL_SERVER_ERROR, SERVER_ERROR);
         }
-        return new ResponseMessageDTO(true, "Student with id = " + id + ", deleted successfully");
+        return new ResponseEntity<>("Student with id = " + id + ", deleted successfully", OK);
     }
 
-    public ResponseMessageDTO updateStudent(Student student){
+    public ResponseEntity<String> updateStudentOrLog(BaseModel studentOrLog){
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.update(student);
+            session.update(studentOrLog);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new SQLTransactionException("Fail while add new Log item to student");
+            throw new ServiceError(INTERNAL_SERVER_ERROR, SERVER_ERROR);
         }
-        return new ResponseMessageDTO(true, "Student log with id = " + student.getId() + ", was added successfully");
+        return new ResponseEntity<>("Element with id = " + studentOrLog.getId() + ", was added successfully", OK);
     }
 }

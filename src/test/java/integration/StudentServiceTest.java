@@ -1,8 +1,8 @@
 package integration;
 
 import com.aston.dto.request.StudentRequestDTO;
-import com.aston.service.StudentService;
 import com.aston.dto.response.ResponseMessageDTO;
+import com.aston.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
