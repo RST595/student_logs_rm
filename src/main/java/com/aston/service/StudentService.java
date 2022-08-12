@@ -19,7 +19,7 @@ public class StudentService {
     private final StudentRepo studentRepo;
     private final ObjectMapper mapper;
 
-    public StudentResponseDTO getStudentById(Integer id) {
+    public StudentResponseDTO getStudentById(int id) {
         return mapper.convertValue(studentRepo.getStudentById(id), StudentResponseDTO.class);
     }
 
@@ -34,7 +34,7 @@ public class StudentService {
         return studentRepo.addNewStudent(newStudent);
     }
 
-    public ResponseMessageDTO deleteStudentById(Integer id) {
+    public ResponseMessageDTO deleteStudentById(int id) {
         return studentRepo.deleteStudentById(id);
     }
 }

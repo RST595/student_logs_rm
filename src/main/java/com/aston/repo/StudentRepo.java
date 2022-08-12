@@ -82,9 +82,6 @@ public class StudentRepo {
             transaction = session.beginTransaction();
             Student student = session.load(Student.class, id);
             if (student != null) {
-                for(LogItem item : student.getLogItem()){
-                    session.delete(item);
-                }
                 session.delete(student);
             }
             transaction.commit();

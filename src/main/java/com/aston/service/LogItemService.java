@@ -30,10 +30,11 @@ public class LogItemService {
     }
 
     public List<LogItem> getStudentLogs(int studentId) {
+        if(studentId < 0) {throw new RuntimeException("sdfvd");}
         return studentRepo.getStudentById(studentId).getLogItem();
     }
 
-    public ResponseMessageDTO editLogMessage(LogItemRequestDTO request, Integer logId) {
+    public ResponseMessageDTO editLogMessage(LogItemRequestDTO request, int logId) {
         LogItem currentItem = logItemRepo.getElementById(logId);
         return logItemRepo.updateLogItem(convertRequestToItem(currentItem, request));
     }

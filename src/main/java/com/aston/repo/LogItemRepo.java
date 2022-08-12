@@ -28,7 +28,7 @@ public class LogItemRepo {
         return new ResponseMessageDTO(true, "Log item updated");
     }
 
-    public LogItem getElementById(Integer logId) {
+    public LogItem getElementById(int logId) {
         Transaction transaction = null;
         LogItem logItem;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

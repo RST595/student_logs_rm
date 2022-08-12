@@ -21,13 +21,13 @@ public class LogItemController {
     }
 
     @GetMapping("/{studentId}")
-    public List<LogItem> getStudentLogs(@PathVariable Integer studentId){
+    public List<LogItem> getStudentLogs(@PathVariable int studentId){
         return logItemService.getStudentLogs(studentId);
     }
 
     @PutMapping("/{logId}")
     public ResponseMessageDTO editLogMessage(@RequestBody LogItemRequestDTO logItem,
-                                             @PathVariable Integer logId){
+                                             @PathVariable int logId){
         return logItemService.editLogMessage(logItem, logId);
     }
 }

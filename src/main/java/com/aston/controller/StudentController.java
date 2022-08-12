@@ -16,7 +16,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping("/{id}")
-    public StudentResponseDTO getStudentById(@PathVariable Integer id) {
+    public StudentResponseDTO getStudentById(@PathVariable int id) {
         return studentService.getStudentById(id);
     }
 
@@ -31,7 +31,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseMessageDTO deleteStudentById(@PathVariable Integer id){
+    public ResponseMessageDTO deleteStudentById(@PathVariable int id){
         return studentService.deleteStudentById(id);
     }
 }
