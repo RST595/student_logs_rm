@@ -1,9 +1,9 @@
 package com.aston.controller;
 
-import com.aston.dto.StudentRequest;
-import com.aston.dto.StudentResponse;
+import com.aston.dto.request.StudentRequestDTO;
+import com.aston.dto.response.StudentResponseDTO;
 import com.aston.service.StudentService;
-import com.aston.util.ResponseMessage;
+import com.aston.dto.response.ResponseMessageDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,22 +16,22 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping("/{id}")
-    public StudentResponse getStudentById(@PathVariable Integer id) {
+    public StudentResponseDTO getStudentById(@PathVariable Integer id) {
         return studentService.getStudentById(id);
     }
 
     @GetMapping
-    public List<StudentResponse> getAllStudents(){
+    public List<StudentResponseDTO> getAllStudents(){
         return studentService.getAllStudents();
     }
 
     @PostMapping
-    public ResponseMessage addNewStudent(@RequestBody StudentRequest student){
+    public ResponseMessageDTO addNewStudent(@RequestBody StudentRequestDTO student){
         return studentService.addNewStudent(student);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseMessage deleteStudentById(@PathVariable Integer id){
+    public ResponseMessageDTO deleteStudentById(@PathVariable Integer id){
         return studentService.deleteStudentById(id);
     }
 }

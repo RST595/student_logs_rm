@@ -1,10 +1,10 @@
 package com.aston.service;
 
-import com.aston.dto.StudentRequest;
-import com.aston.dto.StudentResponse;
+import com.aston.dto.request.StudentRequestDTO;
+import com.aston.dto.response.StudentResponseDTO;
 import com.aston.model.Student;
-import com.aston.repo.StudentDAO;
-import com.aston.util.ResponseMessage;
+import com.aston.repo.StudentRepo;
+import com.aston.dto.response.ResponseMessageDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,25 +16,25 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StudentService {
 
-    private final StudentDAO studentDAO;
+    private final StudentRepo studentRepo;
     private final ObjectMapper mapper;
 
-    public StudentResponse getStudentById(Integer id) {
-        return mapper.convertValue(studentDAO.getStudentById(id), StudentResponse.class);
+    public StudentResponseDTO getStudentById(Integer id) {
+        return mapper.convertValue(studentRepo.getStudentById(id), StudentResponseDTO.class);
     }
 
-    public List<StudentResponse> getAllStudents() {
-        return studentDAO.getAllStudents().stream()
-                .map(student -> mapper.convertValue(student, StudentResponse.class))
+    public List<StudentResponseDTO> getAllStudents() {
+        return studentRepo.getAllStudents().stream()
+                .map(student -> mapper.convertValue(student, StudentResponseDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public ResponseMessage addNewStudent(StudentRequest student) {
+    public ResponseMessageDTO addNewStudent(StudentRequestDTO student) {
         Student newStudent = mapper.convertValue(student, Student.class);
-        return studentDAO.addNewStudent(newStudent);
+        return studentRepo.addNewStudent(newStudent);
     }
 
-    public ResponseMessage deleteStudentById(Integer id) {
-        return studentDAO.deleteStudentById(id);
+    public ResponseMessageDTO deleteStudentById(Integer id) {
+        return studentRepo.deleteStudentById(id);
     }
 }

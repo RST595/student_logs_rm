@@ -1,9 +1,9 @@
 package com.aston.controller;
 
-import com.aston.dto.LogItemRequest;
+import com.aston.dto.request.LogItemRequestDTO;
 import com.aston.model.LogItem;
 import com.aston.service.LogItemService;
-import com.aston.util.ResponseMessage;
+import com.aston.dto.response.ResponseMessageDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ public class LogItemController {
     private final LogItemService logItemService;
 
     @PostMapping
-    public ResponseMessage addLogItem(@RequestBody LogItemRequest logItem){
+    public ResponseMessageDTO addLogItem(@RequestBody LogItemRequestDTO logItem){
         return logItemService.addLogItem(logItem);
     }
 
@@ -26,8 +26,8 @@ public class LogItemController {
     }
 
     @PutMapping("/{logId}")
-    public ResponseMessage editLogMessage(@RequestBody LogItemRequest logItem,
-                                          @PathVariable Integer logId){
+    public ResponseMessageDTO editLogMessage(@RequestBody LogItemRequestDTO logItem,
+                                             @PathVariable Integer logId){
         return logItemService.editLogMessage(logItem, logId);
     }
 }
